@@ -1,21 +1,21 @@
 class Logger {
     constructor() {}
 
-    info(message) {
+    info(message: string) {
         console.log(`\u{1F535} INFO: ${message}`);
     }
 
-    error(message) {
+    error(message: string) {
         console.log(`\u{1F534} ERROR: ${message}`);
     }
 
-    warn(message) {
+    warn(message: string) {
         console.log(`\u{1F7E1} WARNING: ${message}`);
     }
 
-    success(message) {
+    success(message: string) {
         console.log(`\u{2705} SUCCESS: ${message}`);
     }
 }
 
-module.exports = new Logger();
+export default new Logger();
