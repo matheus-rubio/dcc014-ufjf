@@ -9,8 +9,7 @@ import greedySearch from './src/algorithms/greedySearch';
 import aStarSearch from './src/algorithms/aStarSearch';
 import idaStarSearch from './src/algorithms/idaStarSearch';
 import Tree from './src/classes/Tree';
-import Node from './src/classes/Node';
-import Edge from './src/classes/Edge';
+import getSelectedMaxDepth from './src/utils/getSelectedMaxDepth';
 
 const validateSelectedState = (state: string, rulerSize: number) => {
     const regex = /^([PB\-],)*[PB\-]$/;
@@ -44,124 +43,21 @@ const validateSelectedState = (state: string, rulerSize: number) => {
     return true;
 };
 
-// const getFirstPossibililtyFromState = async (state: string) => {
-//     const stateAux = state.split(',');
-//     const allPossibilities = [];
-//     let newState;
-//     const emptyIndex = stateAux.indexOf('-');
-//     for (const [index, positionValue] of stateAux.entries()) {
-//         if (positionValue === '-') {
-//             continue;
-//         }
 
-//         // VERIFICA SE À ESQUERDA DA POSIÇÃO TEM UM ESPAÇO VAZIO
-//         if (index - 1 === emptyIndex || index - 2 === emptyIndex) {
-//             newState = [...stateAux];
-//             newState[emptyIndex] = positionValue;
-//             newState[index] = '-';
-//             allPossibilities.push(newState.join(','));
-//         }
-
-//         // VERIFICA SE À DIREITA DA POSIÇÃO TEM UM ESPAÇO VAZIO
-//         if (index + 1 === emptyIndex || index + 2 === emptyIndex) {
-//             newState = [...stateAux];
-//             newState[emptyIndex] = positionValue;
-//             newState[index] = '-';
-//             allPossibilities.push(newState.join(','));
-//         }
-//     }
-
-//     return allPossibilities;
-// };
-
-// const generateTree = async (initialState: string, depth: number) => {
-
-//     const nodes = [];
-//     const edges = [];
-//     const tree = new Tree(initialState);
-
-//     const initialNode = new Node(nodes.length + 1, initialState);
-//     nodes.push(initialNode);
-
-//     const newPossibilities = await getFirstPossibililtyFromState(initialState);
-
-//     for (const possibility of newPossibilities) {
-//         tree.addNode(possibility);
-//         tree.addEdge(initialState, possibility);
-//     }
-
-//     return tree;
-// };
-
-const getFirstPossibililtyFromState = async (state: string) => {
-    const stateAux = state.split(',');
-    const allPossibilities = [];
-    let newState;
-    const emptyIndex = stateAux.indexOf('-');
-    for (const [index, positionValue] of stateAux.entries()) {
-        if (positionValue === '-') {
-            continue;
-        }
-
-        // VERIFICA SE À ESQUERDA DA POSIÇÃO TEM UM ESPAÇO VAZIO
-        if (index - 1 === emptyIndex || index - 2 === emptyIndex) {
-            newState = [...stateAux];
-            newState[emptyIndex] = positionValue;
-            newState[index] = '-';
-            allPossibilities.push(newState.join(','));
-        }
-
-        // VERIFICA SE À DIREITA DA POSIÇÃO TEM UM ESPAÇO VAZIO
-        if (index + 1 === emptyIndex || index + 2 === emptyIndex) {
-            newState = [...stateAux];
-            newState[emptyIndex] = positionValue;
-            newState[index] = '-';
-            allPossibilities.push(newState.join(','));
-        }
-    }
-
-    return allPossibilities;
-};
-
-const generateTree = async (tree: Tree, depth: number) => {
-    const currentDepth = tree.getDepth();
-    const nodesToGenerateNewPossibilities = tree.getNodesByDepth(currentDepth);
-    if (currentDepth === depth) {
-        return tree;
-    }
-
-    for (const node of nodesToGenerateNewPossibilities) {
-        const newPossibilities = await getFirstPossibililtyFromState(node.getValue());
-
-        for (const possibility of newPossibilities) {
-            const newNode = tree.addNode(possibility);
-
-            tree.addEdge(node.getId(), newNode.getId());
-        }
-
-    }
-    
-    await generateTree(tree, depth);
-    return tree;
-};
 
 const main = async () => {
     let selectedMenuOption: string | number | null = null;
     let selectedRulerSize: number = 0;
-    // let selectedInitialState: string | null = 'P,P,-,B,B';
+    // let selectedInitialState: string | null = 'P,-,B';
     let selectedInitialState: string | null = null;
-    // let selectedFinalState: string | null = 'B,B,-,P,P';
+    // let selectedFinalState: string | null = 'B,-,P';
     let selectedFinalState: string | null = null;
-    let selectedGameTreeDepth: number = 0;
     
     const options: MenuOptions = {
         [-1]: { name: 'Sair', action: () => Logger.info('Saindo...') },
-        1: { name: 'Backtracking', action: async (tree) => {
-            const teste = await backTracking(tree);
-            console.log(JSON.stringify(teste));
-        } },
-        2: { name: 'Busca em Largura', action: depthFirstSearch },
-        3: { name: 'Busca em Profundidade', action: breadthFirstSearch },
+        1: { name: 'Backtracking', action: async (tree, finalState) => await backTracking(tree, finalState) },
+        2: { name: 'Busca em Largura', action: async (tree, finalState) => await breadthFirstSearch(tree, finalState) },
+        3: { name: 'Busca em Profundidade', action: depthFirstSearch },
         4: { name: 'Busca Ordenada', action: sortedSearch },
         5: { name: 'Busca Gulosa', action: greedySearch },
         6: { name: 'Busca A*', action: aStarSearch },
@@ -229,52 +125,41 @@ const main = async () => {
         }
     }
 
-    // INPUT DE PROFUNDIDADE DA ÁRVORE DE JOGO
-    while (selectedGameTreeDepth === 0) {
+    // MENU DE ALGORITMOS
+    while (selectedMenuOption !== '-1') {
         console.log(`| Tamanho da régua: ${selectedRulerSize}`);
         console.log(`| Estado inicial do jogo: [${selectedInitialState}]`);
         console.log(`| Estado final desejado: [${selectedFinalState}]`);
-        selectedGameTreeDepth = Number(question('| Digite a profundidade da árvore de jogo desejada: '));
+
+        const optionsInText = Object.keys(options).reduce((previousValue, optionIndex) => {
+            return `${previousValue}\n| ${optionIndex} - ${options[optionIndex].name}`;
+        }, '| ↓ Selecione uma opção ↓ |');
+
+        console.log(optionsInText);
+        selectedMenuOption = question('| Opção: ');
         console.clear();
 
-        if (selectedGameTreeDepth === -1) {
-            Logger.info('Saindo...');
-            process.exit(0);
+        if (selectedMenuOption === null || !options[selectedMenuOption]) {
+            Logger.error('Opção inválida!');
+            continue;
         }
 
-        if (isNaN(selectedGameTreeDepth) || selectedGameTreeDepth < 1) {
-            Logger.warn('Profundidade inválida! A profundidade da árvore de jogo deve ser um número inteiro positivo.');
-            selectedGameTreeDepth = 0;
+        const selectedTreeDepth = await getSelectedMaxDepth();
+        const tree = new Tree(selectedInitialState, selectedTreeDepth);
+        const algorithmResult = await options[selectedMenuOption].action(tree, selectedFinalState);
+
+        if (algorithmResult) {
+            console.log(`----------------Resultado do ${algorithmResult.algName}-----------------`);
+            console.log(`| Nós visitados: ${algorithmResult.visitedNodes}`);
+            console.log(`| Nós expandidos: ${algorithmResult.expandedNodes}`);
+            console.log(`| Custo da solução: ${algorithmResult.solutionPath ? algorithmResult.cost : 'Não encontrado'}`);
+            console.log(`| Caminho da solução: ${algorithmResult.solutionPath?.join(' -> ') || 'Não encontrado'}`);
+            console.log(`| Fator de ramificação: ${algorithmResult.branchingFactor}`);
+            console.log(`| Tempo de execução: ${algorithmResult.timeSpentInSeconds}s`);
+            console.log('----------------------------------------------------------');
         }
+
     }
-
-    const tree = new Tree(selectedInitialState);
-    const gameTree = await generateTree(tree, selectedGameTreeDepth);
-
-    console.log(gameTree.getNodes());
-
-    // // MENU DE ALGORITMOS
-    // while (selectedMenuOption !== '-1') {
-    //     console.log(`| Tamanho da régua: ${selectedRulerSize}`);
-    //     console.log(`| Estado inicial do jogo: [${selectedInitialState}]`);
-    //     console.log(`| Estado final desejado: [${selectedFinalState}]`);
-    //     console.log(`| Profundidade da árvore de jogo: ${selectedGameTreeDepth}`);
-
-    //     const optionsInText = Object.keys(options).reduce((previousValue, optionIndex) => {
-    //         return `${previousValue}\n| ${optionIndex} - ${options[optionIndex].name}`;
-    //     }, '| ↓ Selecione uma opção ↓ |');
-
-    //     console.log(optionsInText);
-    //     selectedMenuOption = question('| Opção: ');
-    //     console.clear();
-
-    //     if (selectedMenuOption === null || !options[selectedMenuOption]) {
-    //         Logger.error('Opção inválida!');
-    //         continue;
-    //     }
-
-    //     await options[selectedMenuOption].action(gameTree);
-    // }
 };
 
 main();

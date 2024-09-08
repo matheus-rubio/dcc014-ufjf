@@ -4,17 +4,20 @@ import Node from "./Node";
 class Tree {
     private nodes: Node[];
     private edges: Edge[];
-    private nodeDepths: { [node: string]: number };
     private depth: number;
+    private maxDepth: number;
+    private solutionNode: Node | null;
+    private visitedNodes: string[];
+    private expandedNodes: string[];
 
-    constructor(initialNode: string) {
-        this.nodes = [];
+    constructor(initialNode: string, maxDepth: number) {
+        this.nodes = [new Node(1, initialNode, 0)];
         this.edges = [];
-        this.nodeDepths = {};
         this.depth = 0;
-
-        this.nodes.push(new Node(1, initialNode));
-        this.nodeDepths[1] = 0;
+        this.solutionNode = null;
+        this.maxDepth = maxDepth;
+        this.visitedNodes = [];
+        this.expandedNodes = [];
     }
 
     getNodes(): Node[] {
@@ -35,17 +38,12 @@ class Tree {
         return initialNode;
     }
 
-    addNode(node: string): Node {
-        const newNode = new Node(this.nodes.length + 1, node);
-        this.nodes.push(newNode);
-
-        return newNode;
+    addNode(node: Node): void {
+        this.nodes.push(node);
     }
 
-    addEdge(source: number, destiny: number): void {
+    addEdge(source: Node, destiny: Node): void {
         this.edges.push(new Edge(source, destiny));
-
-        this.updateDepth(source, destiny);
     }
 
     getDepth(): number {
@@ -53,22 +51,68 @@ class Tree {
     }
 
     getNodesByDepth(depth: number): Node[] {
-        return this.nodes.filter(node => this.nodeDepths[node.getId()] === depth);
+        return this.nodes.filter(node => node.getDepth() === depth);
     }
 
-    private updateDepth(parentNodeId: number, newNodeId: number): void {
-        // A profundidade do nó filho é a profundidade do nó pai + 1
-        const parentDepth = this.nodeDepths[parentNodeId];
-        if (parentDepth === undefined) {
-            throw new Error(`Parent node ${parentNodeId} depth not found`);
+    setDepth(depth: number): void {
+        this.depth = depth;
+    }
+
+    getMaxDepth(): number {
+        return this.maxDepth;
+    }
+
+    getSolutionNode(): Node | null {
+        return this.solutionNode;
+    }
+
+    setSolutionNode(node: Node): void {
+        this.solutionNode = node;
+    }
+
+    isSolutionFound(): boolean {
+        return this.solutionNode !== null;
+    }
+
+    async getPathFromNode(node: Node): Promise<string[]> {
+        const path: string[] = [];
+
+        return this.auxGetPathFromNode(node, path);
+    }
+
+    private auxGetPathFromNode(node: Node, path: string[]): string[] {
+        path.push(node.getValue());
+
+        const edge = this.edges.find(edge => edge.getTarget().getId() === node.getId());
+
+        if (!edge) {
+            return path;
         }
 
-        this.nodeDepths[newNodeId] = parentDepth + 1;
+        const parentNode = edge.getSource();
 
-        // Atualiza a profundidade máxima se necessário
-        if (this.nodeDepths[newNodeId] > this.depth) {
-            this.depth = this.nodeDepths[newNodeId];
-        }
+        return this.auxGetPathFromNode(parentNode, path);
+    }
+
+    getVisitedNodes(): string[] {
+        return this.visitedNodes;
+    }
+
+    getExpandedNodes(): string[] {
+        return this.expandedNodes;
+    }
+
+    addVisitedNode(node: string): void {
+        this.visitedNodes.push(node);
+    }
+
+    addExpandedNode(node: string): void {
+        this.expandedNodes.push(node);
+    }
+
+    getBranchingFactor(): number {
+        const notLeafNodes = this.nodes.filter(node => this.edges.some(edge => edge.getSource().getId() === node.getId()));
+        return this.edges.length / notLeafNodes.length;
     }
 }
 

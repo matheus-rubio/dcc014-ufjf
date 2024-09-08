@@ -1,10 +1,12 @@
 class Node {
     private id: number;
     private value: string;
+    private depth: number;
 
-    constructor(id: number, value: string) {
+    constructor(id: number, value: string, depth: number) {
         this.id = id;
         this.value = value;
+        this.depth = depth;
     }
 
     getId(): number {
@@ -21,6 +23,14 @@ class Node {
 
     setValue(value: string): void {
         this.value = value;
+    }
+
+    getDepth(): number {
+        return this.depth;
+    }
+
+    setDepth(depth: number): void {
+        this.depth = depth;
     }
 }
 

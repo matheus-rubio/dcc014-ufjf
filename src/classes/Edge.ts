@@ -1,27 +1,27 @@
 import Node from "./Node";
 
 class Edge {
-    private source: number | Node;
-    private target: number | Node;
+    private source: Node;
+    private target: Node;
 
-    constructor(source: number, target: number) {
+    constructor(source: Node, target: Node) {
         this.source = source;
         this.target = target;
     }
 
-    getSource(): number | Node {
+    getSource(): Node {
         return this.source;
     }
 
-    getTarget(): number | Node {
+    getTarget(): Node {
         return this.target;
     }
 
-    setSource(source: number): void {
+    setSource(source: Node): void {
         this.source = source;
     }
 
-    setTarget(target: number): void {
+    setTarget(target: Node): void {
         this.target = target;
     }
 }
