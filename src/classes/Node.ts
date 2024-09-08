@@ -1,8 +1,10 @@
 class Node {
     private id: number;
+    private value: string;
 
-    constructor(id: number) {
+    constructor(id: number, value: string) {
         this.id = id;
+        this.value = value;
     }
 
     getId(): number {
@@ -11,6 +13,14 @@ class Node {
 
     setId(id: number): void {
         this.id = id;
+    }
+
+    getValue(): string {
+        return this.value;
+    }
+
+    setValue(value: string): void {
+        this.value = value;
     }
 }
 
