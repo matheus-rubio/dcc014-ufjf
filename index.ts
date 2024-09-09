@@ -153,7 +153,7 @@ const main = async () => {
             console.log(`| Nós visitados: ${algorithmResult.visitedNodes}`);
             console.log(`| Nós expandidos: ${algorithmResult.expandedNodes}`);
             console.log(`| Custo da solução: ${algorithmResult.solutionPath ? algorithmResult.cost : 'Não encontrado'}`);
-            console.log(`| Caminho da solução: ${algorithmResult.solutionPath?.join(' -> ') || 'Não encontrado'}`);
+            console.log(`| Caminho da solução: ${algorithmResult.solutionPath?.reverse().join(' -> ') || 'Não encontrado'}`);
             console.log(`| Fator de ramificação: ${algorithmResult.branchingFactor}`);
             console.log(`| Tempo de execução: ${algorithmResult.timeSpentInSeconds}s`);
             console.log('----------------------------------------------------------');
