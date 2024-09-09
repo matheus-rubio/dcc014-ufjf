@@ -2,11 +2,13 @@ class Node {
     private id: number;
     private value: string;
     private depth: number;
+    private cost: number;
 
-    constructor(id: number, value: string, depth: number) {
+    constructor(id: number, value: string, depth: number, cost: number = 0) {
         this.id = id;
         this.value = value;
         this.depth = depth;
+        this.cost = cost;
     }
 
     getId(): number {
@@ -31,6 +33,14 @@ class Node {
 
     setDepth(depth: number): void {
         this.depth = depth;
+    }
+
+    getCost(): number {
+        return this.cost;
+    }
+
+    setCost(cost: number): void {
+        this.cost = cost;
     }
 }
 

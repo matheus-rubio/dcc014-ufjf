@@ -8,21 +8,22 @@ const getAllPossibilitiesFromNode = async (state: string) => {
             continue;
         }
 
-        // VERIFICA SE À ESQUERDA DA POSIÇÃO TEM UM ESPAÇO VAZIO
-        if (index - 1 === emptyIndex || index - 2 === emptyIndex) {
+        if (index - 1 === emptyIndex || index + 1 === emptyIndex) {
             newState = [...stateAux];
             newState[emptyIndex] = positionValue;
             newState[index] = '-';
-            allPossibilities.push(newState.join(','));
+
+            allPossibilities.push({ newState: newState.join(','), cost: 1 });
         }
 
-        // VERIFICA SE À DIREITA DA POSIÇÃO TEM UM ESPAÇO VAZIO
-        if (index + 1 === emptyIndex || index + 2 === emptyIndex) {
+        // VERIFICA SE À ESQUERDA DA POSIÇÃO TEM UM ESPAÇO VAZIO
+        if (index - 2 === emptyIndex || index + 2 === emptyIndex) {
             newState = [...stateAux];
             newState[emptyIndex] = positionValue;
             newState[index] = '-';
-            allPossibilities.push(newState.join(','));
+            allPossibilities.push({ newState: newState.join(','), cost: 2 });
         }
+
     }
 
     return allPossibilities;

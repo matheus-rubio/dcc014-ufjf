@@ -7,19 +7,25 @@ import getAllPossibilitiesFromNode from "../utils/getAllPossibilitiesFromNode";
 const generateTree = async (tree: Tree, finalState: string) => {
     const currentDepth = tree.getDepth();
     const nodesToGenerateNewPossibilities = tree.getNodesByDepth(currentDepth);
-    if (currentDepth === tree.getMaxDepth() || tree.isSolutionFound()) {
-        return tree;
-    }
 
     for (const currentNode of nodesToGenerateNewPossibilities) {
         tree.addVisitedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
+
+        if (currentNode.getValue() === finalState) {
+            tree.setSolutionNode(currentNode);
+            return tree;
+        }
+
+        if (currentNode.getDepth() === tree.getMaxDepth()) {
+            return tree;
+        }
 
         const newPossibilities = await getAllPossibilitiesFromNode(currentNode.getValue());
         tree.addExpandedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
         
 
         for (const possibility of newPossibilities) {
-            const childNode = new Node(tree.getNodes().length + 1, possibility, currentNode.getDepth() + 1);
+            const childNode = new Node(tree.getNodes().length + 1, possibility.newState, currentNode.getDepth() + 1);
 
             tree.addNode(childNode);
             tree.addEdge(currentNode, childNode);
@@ -28,11 +34,6 @@ const generateTree = async (tree: Tree, finalState: string) => {
             
             if (tree.getDepth() < childNode.getDepth()) {
                 tree.setDepth(childNode.getDepth());
-            }
-
-            if (possibility === finalState) {
-                tree.setSolutionNode(childNode);
-                return tree;
             }
         }
     }

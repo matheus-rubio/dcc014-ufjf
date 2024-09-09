@@ -57,7 +57,7 @@ const main = async () => {
         [-1]: { name: 'Sair', action: () => Logger.info('Saindo...') },
         1: { name: 'Backtracking', action: async (tree, finalState) => await backTracking(tree, finalState) },
         2: { name: 'Busca em Largura', action: async (tree, finalState) => await breadthFirstSearch(tree, finalState) },
-        3: { name: 'Busca em Profundidade', action: depthFirstSearch },
+        3: { name: 'Busca em Profundidade', action: async (tree, finalState) => await depthFirstSearch(tree, finalState) },
         4: { name: 'Busca Ordenada', action: sortedSearch },
         5: { name: 'Busca Gulosa', action: greedySearch },
         6: { name: 'Busca A*', action: aStarSearch },

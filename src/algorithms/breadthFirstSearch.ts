@@ -33,7 +33,7 @@ const breadthFirstSearch = async (tree: Tree, finalState: string) => {
             tree.addExpandedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
 
             for (const possibility of newPossibilities) {
-                const childNode = new Node(tree.getNodes().length + 1, possibility, currentNode.getDepth() + 1);
+                const childNode = new Node(tree.getNodes().length + 1, possibility.newState, currentNode.getDepth() + 1);
 
                 tree.addNode(childNode);
                 tree.addEdge(currentNode, childNode);

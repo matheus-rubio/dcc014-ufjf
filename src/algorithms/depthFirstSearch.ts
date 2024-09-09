@@ -5,7 +5,7 @@ import AlgorithmResult from "../types/AlgorithmResult";
 import getAllPossibilitiesFromNode from "../utils/getAllPossibilitiesFromNode";
 
 const depthFirstSearch = async (tree: Tree, finalState: string) => {
-    const resultInfo: AlgorithmResult = { algName: 'Busca em Largura' };
+    const resultInfo: AlgorithmResult = { algName: 'Busca em Profundidade' };
     
     try {
         const startDate = new Date();
@@ -33,7 +33,7 @@ const depthFirstSearch = async (tree: Tree, finalState: string) => {
             tree.addExpandedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
 
             for (const possibility of newPossibilities) {
-                const childNode = new Node(tree.getNodes().length + 1, possibility, currentNode.getDepth() + 1);
+                const childNode = new Node(tree.getNodes().length + 1, possibility.newState, currentNode.getDepth() + 1);
 
                 tree.addNode(childNode);
                 tree.addEdge(currentNode, childNode);
@@ -55,8 +55,6 @@ const depthFirstSearch = async (tree: Tree, finalState: string) => {
             resultInfo.cost = solutionNode.getDepth();
             resultInfo.solutionPath = await tree.getPathFromNode(solutionNode);
         }
-
-        console.log(tree);
 
         const endDate = new Date();
         resultInfo.timeSpentInSeconds = (endDate.getTime() - startDate.getTime()) / 1000;
