@@ -48,9 +48,9 @@ const validateSelectedState = (state: string, rulerSize: number) => {
 const main = async () => {
     let selectedMenuOption: string | number | null = null;
     let selectedRulerSize: number = 0;
-    // let selectedInitialState: string | null = 'P,-,B';
+    // let selectedInitialState: string | null = 'P,P,P,P,-,B,B,B,B';
     let selectedInitialState: string | null = null;
-    // let selectedFinalState: string | null = 'B,-,P';
+    // let selectedFinalState: string | null = 'B,B,B,B,-,P,P,P,P';
     let selectedFinalState: string | null = null;
     
     const options: MenuOptions = {
@@ -58,10 +58,10 @@ const main = async () => {
         1: { name: 'Backtracking', action: async (tree, finalState) => await backTracking(tree, finalState) },
         2: { name: 'Busca em Largura', action: async (tree, finalState) => await breadthFirstSearch(tree, finalState) },
         3: { name: 'Busca em Profundidade', action: async (tree, finalState) => await depthFirstSearch(tree, finalState) },
-        4: { name: 'Busca Ordenada', action: sortedSearch },
-        5: { name: 'Busca Gulosa', action: greedySearch },
-        6: { name: 'Busca A*', action: aStarSearch },
-        7: { name: 'Busca IDA*', action: idaStarSearch }
+        4: { name: 'Busca Ordenada', action: async (tree, finalState) => await sortedSearch(tree, finalState) },
+        5: { name: 'Busca Gulosa', action: async (tree, finalState) => await greedySearch(tree, finalState) },
+        6: { name: 'Busca A*', action: async (tree, finalState) => await aStarSearch(tree, finalState) },
+        7: { name: 'Busca IDA*', action: async (tree, finalState) => await idaStarSearch(tree, finalState) }
     };
 
     // INPUT DE TAMANHO DA RÉGUA
@@ -144,20 +144,22 @@ const main = async () => {
             continue;
         }
 
-        const selectedTreeDepth = await getSelectedMaxDepth();
-        const tree = new Tree(selectedInitialState, selectedTreeDepth);
-        const algorithmResult = await options[selectedMenuOption].action(tree, selectedFinalState);
+        if (selectedMenuOption !== '-1') {
+            const selectedTreeDepth = await getSelectedMaxDepth();
+            const tree = new Tree(selectedInitialState, selectedTreeDepth);
+            const algorithmResult = await options[selectedMenuOption].action(tree, selectedFinalState);
 
-        if (algorithmResult) {
-            console.log(`----------------Resultado do ${algorithmResult.algName}-----------------`);
-            console.log(`| Nós visitados: ${algorithmResult.visitedNodes}`);
-            console.log(`| Nós expandidos: ${algorithmResult.expandedNodes}`);
-            console.log(`| Custo da solução: ${algorithmResult.solutionPath ? algorithmResult.cost : 'Não encontrado'}`);
-            console.log(`| Caminho da solução: ${algorithmResult.solutionPath?.reverse().join(' -> ') || 'Não encontrado'}`);
-            console.log(`| Fator de ramificação: ${algorithmResult.branchingFactor}`);
-            console.log(`| Tempo de execução: ${algorithmResult.timeSpentInSeconds}s`);
-            console.log('----------------------------------------------------------');
-        }
+            if (algorithmResult) {
+                console.log(`----------------Resultado do ${algorithmResult.algName}-----------------`);
+                console.log(`| Nós visitados: ${algorithmResult.visitedNodes || 'Não encontrado'}`);
+                console.log(`| Nós expandidos: ${algorithmResult.expandedNodes || 'Não encontrado'}`);
+                console.log(`| Custo da solução: ${algorithmResult.solutionPath ? algorithmResult.cost : 'Não encontrado'}`);
+                console.log(`| Caminho da solução: ${algorithmResult.solutionPath?.reverse().join(' -> ') || 'Não encontrado'}`);
+                console.log(`| Fator de ramificação: ${algorithmResult.branchingFactor || 'Não encontrado'}`);
+                console.log(`| Tempo de execução: ${algorithmResult.timeSpentInSeconds}s`);
+                console.log('----------------------------------------------------------');
+            }
+        } 
 
     }
 };

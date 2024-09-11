@@ -35,11 +35,11 @@ const sortedSearch = async (tree: Tree, finalState: string) => {
 
             const currentNode = nodesList.splice(indexWithLowestCost, 1)[0];
 
-            if (tree.getVisitedNodes().includes(`${currentNode.getId()}-${currentNode.getValue()}`)) {
+            if (tree.getVisitedNodes().includes(`${currentNode.getValue()}`)) {
                 continue;
             }
 
-            tree.addVisitedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
+            tree.addVisitedNode(`${currentNode.getValue()}`);
 
             if (currentNode.getValue() === finalState) {
                 tree.setSolutionNode(currentNode);
@@ -51,7 +51,7 @@ const sortedSearch = async (tree: Tree, finalState: string) => {
             }
 
             const newPossibilities = await getAllPossibilitiesFromNode(currentNode.getValue());
-            tree.addExpandedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
+            tree.addExpandedNode(`${currentNode.getValue()}`);
 
             for (const possibility of newPossibilities) {
                 const childNode = new Node(tree.getNodes().length + 1, possibility.newState, currentNode.getDepth() + 1);
@@ -77,8 +77,6 @@ const sortedSearch = async (tree: Tree, finalState: string) => {
             resultInfo.cost = solutionNode.getDepth();
             resultInfo.solutionPath = await tree.getPathFromNode(solutionNode);
         }
-
-        console.log(tree);
 
         const endDate = new Date();
         resultInfo.timeSpentInSeconds = (endDate.getTime() - startDate.getTime()) / 1000;

@@ -14,11 +14,11 @@ const breadthFirstSearch = async (tree: Tree, finalState: string) => {
         while (queue.length > 0 && !tree.isSolutionFound()) {
             const currentNode: any = queue.shift();
 
-            if (tree.getVisitedNodes().includes(`${currentNode.getId()}-${currentNode.getValue()}`)) {
+            if (tree.getVisitedNodes().includes(`${currentNode.getValue()}`)) {
                 continue;
             }
 
-            tree.addVisitedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
+            tree.addVisitedNode(`${currentNode.getValue()}`);
 
             if (currentNode.getValue() === finalState) {
                 tree.setSolutionNode(currentNode);
@@ -30,7 +30,7 @@ const breadthFirstSearch = async (tree: Tree, finalState: string) => {
             }
 
             const newPossibilities = await getAllPossibilitiesFromNode(currentNode.getValue());
-            tree.addExpandedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
+            tree.addExpandedNode(`${currentNode.getValue()}`);
 
             for (const possibility of newPossibilities) {
                 const childNode = new Node(tree.getNodes().length + 1, possibility.newState, currentNode.getDepth() + 1);

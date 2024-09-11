@@ -114,6 +114,14 @@ class Tree {
         const notLeafNodes = this.nodes.filter(node => this.edges.some(edge => edge.getSource().getId() === node.getId()));
         return this.edges.length / notLeafNodes.length;
     }
+
+    removeVisitedNode(node: string): void {
+        const index = this.visitedNodes.indexOf(node);
+
+        if (index !== -1) {
+            this.visitedNodes.splice(index, 1);
+        }
+    }
 }
 
 export default Tree;

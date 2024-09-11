@@ -67,11 +67,11 @@ const greedySearch = async (tree: Tree, finalState: string) => {
         while (!priorityQueue.isEmpty() && !tree.isSolutionFound()) {
             const currentNode = priorityQueue.dequeue();
 
-            if (currentNode === null || tree.getVisitedNodes().includes(`${currentNode.getId()}-${currentNode.getValue()}`)) {
+            if (currentNode === null || tree.getVisitedNodes().includes(`${currentNode.getValue()}`)) {
                 continue;
             }
 
-            tree.addVisitedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
+            tree.addVisitedNode(`${currentNode.getValue()}`);
 
             // Marca nó solução
             if (currentNode.getValue() === finalState) {
@@ -86,7 +86,7 @@ const greedySearch = async (tree: Tree, finalState: string) => {
 
             // Gera possibilidades para o nó atual
             const newPossibilities = await getAllPossibilitiesFromNode(currentNode.getValue());
-            tree.addExpandedNode(`${currentNode.getId()}-${currentNode.getValue()}`);
+            tree.addExpandedNode(`${currentNode.getValue()}`);
 
             for (const possibility of newPossibilities) {
                 const childNode = new Node(
