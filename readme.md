@@ -122,8 +122,9 @@ Ao final da execução de qualquer um dos algoritmos, o usuário terá como reto
 
 ### Principais dificuldades encontradas
 
-- **Definição da heurística**: 
+- **Definição da heurística**:
 
+   Para tornar eficientes os algoritmos Guloso, A* e IDA*, foi pensada uma heurística que pudesse representar bem a "distância" entre o estado atual e o estado objetivo, dessa forma, pela representação ser feita numa cadeia de caracteres, optou-se por medir o número de posições nas quais - tanto para o estado atual como o objetivo - tem-se caracteres diferentes (entre "P", "B" ou "-"). Ex.: tendo respectivamente **[P,P,-,B,B]** e **[B,B,-,P,P]** como os estados atual e objetivo, a heurística para essa jogada seria de 4.
 
 - **Estouro de memória**
    
@@ -134,9 +135,7 @@ Ao final da execução de qualquer um dos algoritmos, o usuário terá como reto
 
 ### Estatísticas de Execução
 
-Aqui ficarão os gráficos e tabelas com as estatísticas de execução dos algoritmos.
 
----
 
 # Execução do projeto
 
