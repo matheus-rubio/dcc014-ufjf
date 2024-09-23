@@ -139,7 +139,12 @@ Ao final da execução de qualquer um dos algoritmos, o usuário terá como reto
 
 ### Estatísticas de Execução
 
-   Considerando uma partida com uma régua de **5 posições** em que temos o estado inicial **[-,P,B,B,P]** e estado objetivo **[B,B,-,P,P]**, a execução de cada algoritmo foi impressa como segue:
+   Considerando três partidas, com réguas de **5**, **7** e **9 posições** respectivamente, a execução de cada algoritmo foi impressa como segue (sessões onde faltarem algoritmos indicam que estes tiveram erro de memória sem dar resultados):
+
+**5 posições: Estado inicial [-,P,B,B,P] e estado objetivo [B,B,-,P,P],**
+<p align="center">
+   <img src="./img/graph_5_posicoes.png" alt="Exemplo de jogo com 5 posições" />
+<p>
 
 ```
 ----------------Resultado do Backtracking-----------------
@@ -205,9 +210,116 @@ Ao final da execução de qualquer um dos algoritmos, o usuário terá como reto
 | Tempo de execução: 0s
 ```
 
+**7 posições: Estado inicial [P,B,-,P,P,B,B] e estado objetivo [B,B,B,-,P,P,P],**
+<p align="center">
+   <img src="./img/graph_7_posicoes.png" alt="Exemplo de jogo com 7 posições" />
+<p>
+
+\* A busca IDA* está sem dados pois realizou 31909 expansões.
+
+```
+----------------Resultado do Busca em Largura-----------------
+| Nós visitados: 136
+| Nós expandidos: 135
+| Custo da solução: 12
+| Caminho da solução: P,B,-,P,P,B,B -> P,B,P,-,P,B,B -> P,B,P,B,P,-,B -> P,B,P,B,P,B,- -> P,B,P,B,-,B,P -> P,B,-,B,P,B,P -> -,B,P,B,P,B,P -> B,-,P,B,P,B,P -> B,B,P,-,P,B,P -> B,B,P,B,P,-,P -> B,B,P,B,-,P,P -> B,B,-,B,P,P,P -> B,B,B,-,P,P,P
+| Fator de ramificação: 3.15
+| Tempo de execução: 0.003s
+
+----------------Resultado do Busca em Profundidade-----------------
+| Nós visitados: 129
+| Nós expandidos: 128
+| Custo da solução: 65
+| Caminho da solução: P,B,-,P,P,B,B -> P,B,P,P,-,B,B -> P,B,P,P,B,B,- -> P,B,P,P,B,-,B -> P,B,P,-,B,P,B -> P,B,P,B,-,P,B -> P,B,P,B,B,P,- -> P,B,P,B,B,-,P -> P,B,P,B,-,B,P -> P,B,P,B,P,B,- -> P,B,P,B,P,-,B -> P,B,P,-,P,B,B -> P,-,P,B,P,B,B -> P,P,-,B,P,B,B -> P,P,P,B,-,B,B -> P,P,P,B,B,B,- -> P,P,P,B,B,-,B -> P,P,P,-,B,B,B -> P,P,-,P,B,B,B -> P,P,B,P,-,B,B -> P,P,B,P,B,B,- -> P,P,B,P,B,-,B -> P,P,B,-,B,P,B -> P,P,B,B,-,P,B -> P,P,B,B,B,P,- -> P,P,B,B,B,-,P -> P,P,B,B,-,B,P -> P,P,B,B,P,B,- -> P,P,B,B,P,-,B -> P,P,B,-,P,B,B -> P,-,B,P,P,B,B -> -,P,B,P,P,B,B -> B,P,-,P,P,B,B -> B,P,P,P,-,B,B -> B,P,P,P,B,B,- -> B,P,P,P,B,-,B -> B,P,P,-,B,P,B -> B,P,P,B,-,P,B -> B,P,P,B,B,P,- -> B,P,P,B,B,-,P -> B,P,P,B,-,B,P -> B,P,P,-,B,B,P -> B,P,-,P,B,B,P -> B,P,B,P,-,B,P -> B,P,B,P,P,B,- -> B,P,B,P,P,-,B -> B,P,B,P,-,P,B -> B,P,B,P,B,P,- -> B,P,B,P,B,-,P -> B,P,B,-,B,P,P -> B,P,B,B,-,P,P -> B,P,B,B,P,P,- -> B,P,B,B,P,-,P -> B,P,B,-,P,B,P -> B,P,-,B,P,B,P -> B,-,P,B,P,B,P -> B,B,P,-,P,B,P -> B,B,P,B,P,-,P -> B,B,P,B,P,P,- -> B,B,P,B,-,P,P -> B,B,P,-,B,P,P -> B,B,-,P,B,P,P -> B,B,B,P,-,P,P -> B,B,B,P,P,P,- -> B,B,B,P,P,-,P -> B,B,B,-,P,P,P
+| Fator de ramificação: 3.17
+| Tempo de execução: 0.002s
+
+----------------Resultado do Busca ordenada-----------------
+| Nós visitados: 136
+| Nós expandidos: 135
+| Custo da solução: 12
+| Caminho da solução: P,B,-,P,P,B,B -> P,B,P,-,P,B,B -> P,B,P,B,P,-,B -> P,B,P,B,P,B,- -> P,B,P,B,-,B,P -> P,B,-,B,P,B,P -> -,B,P,B,P,B,P -> B,-,P,B,P,B,P -> B,B,P,-,P,B,P -> B,B,P,B,P,-,P -> B,B,P,B,-,P,P -> B,B,-,B,P,P,P -> B,B,B,-,P,P,P
+| Fator de ramificação: 3.15
+| Tempo de execução: 0.007s
+
+----------------Resultado do Busca Gulosa-----------------
+| Nós visitados: 52
+| Nós expandidos: 51
+| Custo da solução: 14
+| Caminho da solução: P,B,-,P,P,B,B -> P,B,P,-,P,B,B -> P,B,P,B,P,-,B -> P,B,P,B,-,P,B -> P,B,-,B,P,P,B -> -,B,P,B,P,P,B -> B,-,P,B,P,P,B -> B,B,P,-,P,P,B -> B,B,P,P,-,P,B -> B,B,P,P,B,P,- -> B,B,P,P,B,-,P -> B,B,P,-,B,P,P -> B,B,-,P,B,P,P -> B,B,B,P,-,P,P -> B,B,B,-,P,P,P
+| Fator de ramificação: 3.24
+| Tempo de execução: 0s
+
+----------------Resultado do A* Search-----------------
+| Nós visitados: 124
+| Nós expandidos: 123
+| Custo da solução: 12
+| Caminho da solução: P,B,-,P,P,B,B -> P,B,P,-,P,B,B -> P,B,P,B,P,-,B -> P,B,P,B,P,B,- -> P,B,P,B,-,B,P -> P,B,-,B,P,B,P -> -,B,P,B,P,B,P -> B,-,P,B,P,B,P -> B,B,P,-,P,B,P -> B,B,P,B,P,-,P -> B,B,P,B,-,P,P -> B,B,-,B,P,P,P -> B,B,B,-,P,P,P
+| Fator de ramificação: 3.15
+| Tempo de execução: 0.002s
+
+----------------Resultado do IDA* Search-----------------
+| Nós visitados: Não encontrado
+| Nós expandidos: 31909
+| Custo da solução: 12
+| Caminho da solução: P,B,-,P,P,B,B -> P,B,P,-,P,B,B -> P,B,P,B,P,-,B -> P,B,P,B,P,B,- -> P,B,P,B,-,B,P -> P,B,-,B,P,B,P -> -,B,P,B,P,B,P -> B,-,P,B,P,B,P -> B,B,P,-,P,B,P -> B,B,P,B,P,-,P -> B,B,P,B,-,P,P -> B,B,-,B,P,P,P -> B,B,B,-,P,P,P
+| Fator de ramificação: 3.55
+| Tempo de execução: 18.994s
+```
+
+**9 posições: Estado inicial [P,-,B,P,P,B,B,P,B] e estado objetivo [B,B,B,B,-,P,P,P,P],**
+
+<p align="center">
+   <img src="./img/graph_9_posicoes.png" alt="Exemplo de jogo com 9 posições" />
+<p>
+
+\* A busca IDA* está sem dados pois realizou 51032 expansões.
+
+```
+----------------Resultado do Busca em Largura-----------------
+| Nós visitados: 626
+| Nós expandidos: 625
+| Custo da solução: 19
+| Caminho da solução: P,-,B,P,P,B,B,P,B -> -,P,B,P,P,B,B,P,B -> B,P,-,P,P,B,B,P,B -> B,P,P,P,-,B,B,P,B -> B,P,P,P,B,-,B,P,B -> B,P,P,-,B,P,B,P,B -> B,P,-,P,B,P,B,P,B -> B,P,B,P,-,P,B,P,B -> B,P,B,P,B,P,-,P,B -> B,P,B,P,B,P,B,P,- -> B,P,B,P,B,P,B,-,P -> B,P,B,P,B,-,B,P,P -> B,P,B,-,B,P,B,P,P -> B,-,B,P,B,P,B,P,P -> B,B,-,P,B,P,B,P,P -> B,B,B,P,-,P,B,P,P -> B,B,B,P,B,P,-,P,P -> B,B,B,P,B,-,P,P,P -> B,B,B,-,B,P,P,P,P -> B,B,B,B,-,P,P,P,P
+| Fator de ramificação: 3.34
+| Tempo de execução: 0.03s
+
+----------------Resultado do Busca em Profundidade-----------------
+| Nós visitados: 220
+| Nós expandidos: 219
+| Custo da solução: 201
+| Caminho da solução: P,-,B,P,P,B,B,P,B -> P,P,B,-,P,B,B,P,B -> P,P,B,B,P,-,B,P,B -> P,P,B,B,P,P,B,-,B -> P,P,B,B,P,P,B,B,- -> P,P,B,B,P,P,-,B,B -> P,P,B,B,P,-,P,B,B -> P,P,B,B,P,B,P,-,B -> P,P,B,B,P,B,P,B,- -> P,P,B,B,P,B,-,B,P -> P,P,B,B,P,B,B,-,P -> P,P,B,B,P,B,B,P,- -> P,P,B,B,P,B,-,P,B -> P,P,B,B,-,B,P,P,B -> P,P,B,B,B,-,P,P,B -> P,P,B,B,B,P,P,-,B -> P,P,B,B,B,P,P,B,- -> P,P,B,B,B,P,-,B,P -> P,P,B,B,B,P,B,-,P -> P,P,B,B,B,P,B,P,- -> P,P,B,B,B,P,-,P,B -> P,P,B,B,-,P,B,P,B -> P,P,B,-,B,P,B,P,B -> P,P,B,P,B,-,B,P,B -> P,P,B,P,B,P,B,-,B -> P,P,B,P,B,P,B,B,- -> P,P,B,P,B,P,-,B,B -> P,P,B,P,B,-,P,B,B -> P,P,B,P,B,B,P,-,B -> P,P,B,P,B,B,P,B,- -> P,P,B,P,B,B,-,B,P -> P,P,B,P,B,B,B,-,P -> P,P,B,P,B,B,B,P,- -> P,P,B,P,B,B,-,P,B -> P,P,B,P,-,B,B,P,B -> P,P,-,P,B,B,B,P,B -> P,P,P,-,B,B,B,P,B -> P,P,P,B,B,-,B,P,B -> P,P,P,B,B,P,B,-,B -> P,P,P,B,B,P,B,B,- -> P,P,P,B,B,P,-,B,B -> P,P,P,B,B,-,P,B,B -> P,P,P,B,B,B,P,-,B -> P,P,P,B,B,B,P,B,- -> P,P,P,B,B,B,-,B,P -> P,P,P,B,B,B,B,-,P -> P,P,P,B,B,B,B,P,- -> P,P,P,B,B,B,-,P,B -> P,P,P,B,-,B,B,P,B -> P,P,-,B,P,B,B,P,B -> P,-,P,B,P,B,B,P,B -> P,B,P,-,P,B,B,P,B -> P,B,P,B,P,-,B,P,B -> P,B,P,B,P,P,B,-,B -> P,B,P,B,P,P,B,B,- -> P,B,P,B,P,P,-,B,B -> P,B,P,B,P,-,P,B,B -> P,B,P,B,P,B,P,-,B -> P,B,P,B,P,B,P,B,- -> P,B,P,B,P,B,-,B,P -> P,B,P,B,P,B,B,-,P -> P,B,P,B,P,B,B,P,- -> P,B,P,B,P,B,-,P,B -> P,B,P,B,-,B,P,P,B -> P,B,P,B,B,-,P,P,B -> P,B,P,B,B,P,P,-,B -> P,B,P,B,B,P,P,B,- -> P,B,P,B,B,P,-,B,P -> P,B,P,B,B,P,B,-,P -> P,B,P,B,B,P,B,P,- -> P,B,P,B,B,P,-,P,B -> P,B,P,B,-,P,B,P,B -> P,B,P,-,B,P,B,P,B -> P,B,P,P,B,-,B,P,B -> P,B,P,P,B,P,B,-,B -> P,B,P,P,B,P,B,B,- -> P,B,P,P,B,P,-,B,B -> P,B,P,P,B,-,P,B,B -> P,B,P,P,B,B,P,-,B -> P,B,P,P,B,B,P,B,- -> P,B,P,P,B,B,-,B,P -> P,B,P,P,B,B,B,-,P -> P,B,P,P,B,B,B,P,- -> P,B,P,P,B,B,-,P,B -> P,B,P,P,-,B,B,P,B -> P,B,-,P,P,B,B,P,B -> -,B,P,P,P,B,B,P,B -> B,-,P,P,P,B,B,P,B -> B,P,P,-,P,B,B,P,B -> B,P,P,B,P,-,B,P,B -> B,P,P,B,P,P,B,-,B -> B,P,P,B,P,P,B,B,- -> B,P,P,B,P,P,-,B,B -> B,P,P,B,P,-,P,B,B -> B,P,P,B,P,B,P,-,B -> B,P,P,B,P,B,P,B,- -> B,P,P,B,P,B,-,B,P -> B,P,P,B,P,B,B,-,P -> B,P,P,B,P,B,B,P,- -> B,P,P,B,P,B,-,P,B -> B,P,P,B,-,B,P,P,B -> B,P,P,B,B,-,P,P,B -> B,P,P,B,B,P,P,-,B -> B,P,P,B,B,P,P,B,- -> B,P,P,B,B,P,-,B,P -> B,P,P,B,B,P,B,-,P -> B,P,P,B,B,P,B,P,- -> B,P,P,B,B,P,-,P,B -> B,P,P,B,-,P,B,P,B -> B,P,P,-,B,P,B,P,B -> B,P,P,P,B,-,B,P,B -> B,P,P,P,B,P,B,-,B -> B,P,P,P,B,P,B,B,- -> B,P,P,P,B,P,-,B,B -> B,P,P,P,B,-,P,B,B -> B,P,P,P,B,B,P,-,B -> B,P,P,P,B,B,P,B,- -> B,P,P,P,B,B,-,B,P -> B,P,P,P,B,B,B,-,P -> B,P,P,P,B,-,B,B,P -> B,P,P,P,-,B,B,B,P -> B,P,P,-,P,B,B,B,P -> B,P,P,B,P,-,B,B,P -> B,P,P,B,-,P,B,B,P -> B,P,P,-,B,P,B,B,P -> B,P,-,P,B,P,B,B,P -> B,P,B,P,-,P,B,B,P -> B,P,B,P,B,P,-,B,P -> B,P,B,P,B,P,P,B,- -> B,P,B,P,B,P,P,-,B -> B,P,B,P,B,P,-,P,B -> B,P,B,P,B,P,B,P,- -> B,P,B,P,B,P,B,-,P -> B,P,B,P,B,-,B,P,P -> B,P,B,P,B,B,-,P,P -> B,P,B,P,B,B,P,P,- -> B,P,B,P,B,B,P,-,P -> B,P,B,P,B,-,P,B,P -> B,P,B,P,-,B,P,B,P -> B,P,B,P,P,B,-,B,P -> B,P,B,P,P,B,P,B,- -> B,P,B,P,P,B,P,-,B -> B,P,B,P,P,B,-,P,B -> B,P,B,P,P,B,B,P,- -> B,P,B,P,P,B,B,-,P -> B,P,B,P,P,-,B,B,P -> B,P,B,-,P,P,B,B,P -> B,P,-,B,P,P,B,B,P -> B,-,P,B,P,P,B,B,P -> B,B,P,-,P,P,B,B,P -> B,B,P,P,P,-,B,B,P -> B,B,P,P,P,B,B,-,P -> B,B,P,P,P,B,B,P,- -> B,B,P,P,P,B,-,P,B -> B,B,P,P,P,B,P,-,B -> B,B,P,P,P,B,P,B,- -> B,B,P,P,P,B,-,B,P -> B,B,P,P,-,B,P,B,P -> B,B,P,P,B,-,P,B,P -> B,B,P,P,B,B,P,-,P -> B,B,P,P,B,B,P,P,- -> B,B,P,P,B,B,-,P,P -> B,B,P,P,B,-,B,P,P -> B,B,P,P,B,P,B,-,P -> B,B,P,P,B,P,B,P,- -> B,B,P,P,B,P,-,P,B -> B,B,P,P,B,P,P,-,B -> B,B,P,P,B,-,P,P,B -> B,B,P,P,-,B,P,P,B -> B,B,P,-,P,B,P,P,B -> B,B,P,B,P,-,P,P,B -> B,B,P,B,P,P,P,-,B -> B,B,P,B,P,P,P,B,- -> B,B,P,B,P,P,-,B,P -> B,B,P,B,P,P,B,-,P -> B,B,P,B,P,P,B,P,- -> B,B,P,B,P,P,-,P,B -> B,B,P,B,-,P,P,P,B -> B,B,P,-,B,P,P,P,B -> B,B,-,P,B,P,P,P,B -> B,B,B,P,-,P,P,P,B -> B,B,B,P,P,P,-,P,B -> B,B,B,P,P,P,B,P,- -> B,B,B,P,P,P,B,-,P -> B,B,B,P,P,P,-,B,P -> B,B,B,P,P,-,P,B,P -> B,B,B,P,P,B,P,-,P -> B,B,B,P,P,B,P,P,- -> B,B,B,P,P,B,-,P,P -> B,B,B,P,P,-,B,P,P -> B,B,B,P,-,P,B,P,P -> B,B,B,P,B,P,-,P,P -> B,B,B,P,B,P,P,P,- -> B,B,B,P,B,P,P,-,P -> B,B,B,P,B,-,P,P,P -> B,B,B,P,-,B,P,P,P -> B,B,B,-,P,B,P,P,P -> B,B,B,B,P,-,P,P,P -> B,B,B,B,P,P,P,-,P -> B,B,B,B,P,P,P,P,- -> B,B,B,B,P,P,-,P,P -> B,B,B,B,-,P,P,P,P
+| Fator de ramificação: 3.33
+| Tempo de execução: 0.004s
+
+----------------Resultado do Busca ordenada-----------------
+| Nós visitados: 626
+| Nós expandidos: 625
+| Custo da solução: 19
+| Caminho da solução: P,-,B,P,P,B,B,P,B -> -,P,B,P,P,B,B,P,B -> B,P,-,P,P,B,B,P,B -> B,P,P,P,-,B,B,P,B -> B,P,P,P,B,-,B,P,B -> B,P,P,-,B,P,B,P,B -> B,P,-,P,B,P,B,P,B -> B,P,B,P,-,P,B,P,B -> B,P,B,P,B,P,-,P,B -> B,P,B,P,B,P,B,P,- -> B,P,B,P,B,P,B,-,P -> B,P,B,P,B,-,B,P,P -> B,P,B,-,B,P,B,P,P -> B,-,B,P,B,P,B,P,P -> B,B,-,P,B,P,B,P,P -> B,B,B,P,-,P,B,P,P -> B,B,B,P,B,P,-,P,P -> B,B,B,P,B,-,P,P,P -> B,B,B,-,B,P,P,P,P -> B,B,B,B,-,P,P,P,P
+| Fator de ramificação: 3.34
+| Tempo de execução: 0.018s
+
+----------------Resultado do Busca Gulosa-----------------
+| Nós visitados: 203
+| Nós expandidos: 202
+| Custo da solução: 30
+| Caminho da solução: P,-,B,P,P,B,B,P,B -> P,P,B,-,P,B,B,P,B -> P,P,B,B,P,-,B,P,B -> P,P,B,B,-,P,B,P,B -> P,P,-,B,B,P,B,P,B -> P,-,P,B,B,P,B,P,B -> P,B,P,-,B,P,B,P,B -> P,B,P,B,-,P,B,P,B -> P,B,-,B,P,P,B,P,B -> P,B,B,-,P,P,B,P,B -> P,B,B,P,-,P,B,P,B -> P,B,B,P,B,P,-,P,B -> P,B,B,P,B,-,P,P,B -> P,B,B,-,B,P,P,P,B -> P,B,-,B,B,P,P,P,B -> -,B,P,B,B,P,P,P,B -> B,-,P,B,B,P,P,P,B -> B,B,P,-,B,P,P,P,B -> B,B,P,B,-,P,P,P,B -> B,B,P,B,P,P,-,P,B -> B,B,P,B,P,P,B,P,- -> B,B,P,B,P,P,B,-,P -> B,B,P,B,P,-,B,P,P -> B,B,P,B,-,P,B,P,P -> B,B,-,B,P,P,B,P,P -> B,B,B,-,P,P,B,P,P -> B,B,B,P,-,P,B,P,P -> B,B,B,P,B,P,-,P,P -> B,B,B,P,B,-,P,P,P -> B,B,B,-,B,P,P,P,P -> B,B,B,B,-,P,P,P,P
+| Fator de ramificação: 3.38
+| Tempo de execução: 0.003s
+
+----------------Resultado do A* Search-----------------
+| Nós visitados: 608
+| Nós expandidos: 607
+| Custo da solução: 19
+| Caminho da solução: P,-,B,P,P,B,B,P,B -> -,P,B,P,P,B,B,P,B -> B,P,-,P,P,B,B,P,B -> B,P,P,P,-,B,B,P,B -> B,P,P,P,B,-,B,P,B -> B,P,P,-,B,P,B,P,B -> B,P,-,P,B,P,B,P,B -> B,P,B,P,-,P,B,P,B -> B,P,B,P,B,P,-,P,B -> B,P,B,P,B,P,B,P,- -> B,P,B,P,B,P,B,-,P -> B,P,B,P,B,-,B,P,P -> B,P,B,-,B,P,B,P,P -> B,-,B,P,B,P,B,P,P -> B,B,-,P,B,P,B,P,P -> B,B,B,P,-,P,B,P,P -> B,B,B,P,B,P,-,P,P -> B,B,B,P,B,-,P,P,P -> B,B,B,-,B,P,P,P,P -> B,B,B,B,-,P,P,P,P
+| Fator de ramificação: 3.34
+| Tempo de execução: 0.01s
+```
+
 ## Nós visitados e expandidos
 
-   A partir da relação entre nós visitados e expandidos, nota-se a menor eficiência no algoritmo **Backtracking**, com 272 visitas para "apenas" 69 expansões. A **Busca em Largura** e a **Busca Ordenada** foram significativamente mais eficientes, visitando 18 nós e expandindo 17, e a **Busca em Profundidade**, embora tendo visitado 9 nós, resultou em uma solução de 8 movimentos. A **Busca Gulosa** teve a melhor eficiência, visitando apenas 5 nós, mas teve um fator de ramificação um pouco mais alto para chegar a tal. O **A\*** e o **IDA\*** expandiram poucos nós, 8 e 11, respectivamente, e também encontraram soluções ótimas, com o IDA* sendo ligeiramente menos eficiente em termos de expansão, o que demonstra que com o uso da heurística correta, pode-se atingir uma eficiência maior com os algoritmos que dependem desta.
+   A partir da relação entre nós visitados e expandidos, nota-se a menor eficiência no algoritmo **Backtracking**, com muitas visitas para relativamente poucas expansões. A **Busca em Largura** e a **Busca Ordenada** foram significativamente mais eficientes, visitando e expandindo um número similar de nós, e a **Busca em Profundidade**, embora tendo visitado 9 nós, resultou em uma solução de 8 movimentos. A **Busca Gulosa** teve a melhor eficiência, visitando apenas 5 nós, mas teve um fator de ramificação um pouco mais alto para chegar a tal. O **A\*** e o **IDA\*** expandiram poucos nós, 8 e 11, respectivamente, e também encontraram soluções ótimas, com o IDA* sendo ligeiramente menos eficiente em termos de expansão, o que demonstra que com o uso da heurística correta, pode-se atingir uma eficiência maior com os algoritmos que dependem desta.
 
 ## Custo da solução
 
